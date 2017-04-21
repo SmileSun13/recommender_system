@@ -1,0 +1,39 @@
+create table movies
+(
+	movie_id integer default nextval('movies_movie_id_seq'::regclass) not null
+		constraint movies_pkey
+			primary key,
+	title varchar(50),
+	average_rating real,
+	count_rated integer
+);
+
+create table ratings
+(
+	user_id integer not null
+		constraint ratings_users_user_id_fk
+			references users,
+	movie_id integer not null
+		constraint ratings_movies_movie_id_fk
+			references movies,
+	rating real,
+	constraint ratings_user_id_movie_id_pk
+		primary key (user_id, movie_id)
+);
+
+create table similar_movies
+(
+	movie1_id integer not null,
+	movie2_id integer not null,
+	similarity real,
+	constraint similar_movies_movie1_id_movie2_id_pk
+		primary key (movie1_id, movie2_id)
+);
+
+create table users
+(
+	user_id integer default nextval('users_user_id_seq'::regclass) not null
+		constraint users_pkey
+			primary key,
+	name varchar(25)
+);
